@@ -94,6 +94,7 @@ export const SearchInfoSwitch = styled.span`
 `
 
 export const SearchInfoItem = styled.a`
+    text-decoration: none;
     display: block;
     float: left;
     padding: 0 5px;
