@@ -10,8 +10,36 @@ import {
     Addition,
     Button,
     SearchWrapper,
+    SearchInfo,
+    SearchInfoTitle,
+    SearchInfoItem,
+    SearchInfoSwitch,
+    SearchInfoList,
     IconWrapper
 } from './style';
+
+const getList = (focused) => {
+    if (focused) {
+            return (
+                <SearchInfo>
+                    <SearchInfoTitle>
+                        热门搜索
+                        <SearchInfoSwitch>
+                            换一批
+                        </SearchInfoSwitch>
+                    </SearchInfoTitle>
+                    <SearchInfoList>  
+                        <SearchInfoItem href='www.baidu.com'>教育</SearchInfoItem>
+                        <SearchInfoItem>C++</SearchInfoItem>
+                        <SearchInfoItem>JavaScript</SearchInfoItem>
+                        <SearchInfoItem>软件工程</SearchInfoItem>
+                    </SearchInfoList>
+                </SearchInfo>
+            )
+    }else{
+        return null
+    }
+}
 
 const Header = (props) => {
     return (
@@ -45,6 +73,7 @@ const Header = (props) => {
                     <use xlinkHref="#icon-search"></use>
                 </svg>
                 </IconWrapper>
+                {getList(props.focused)}
             </SearchWrapper>
             <NavItem className='rightFlow navLight'>Aa</NavItem>                     
             <NavItem className='navLight'>登录</NavItem> 
