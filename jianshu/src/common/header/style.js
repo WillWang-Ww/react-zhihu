@@ -91,6 +91,14 @@ export const SearchInfoTitle = styled.div`
 export const SearchInfoSwitch = styled.span`
     font-size: 14px;
     float: right;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    .spin{
+        display: block;
+        transition: all 0.2s;
+        transfrom-origin: center center;
+    }
 `
 
 export const SearchInfoItem = styled.a`

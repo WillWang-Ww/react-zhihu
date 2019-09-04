@@ -21,21 +21,33 @@ import {
 class Header extends Component {
 
     getList = () => {
-        if (this.props.focused) {
+        const {focused , list, page, totalPage, handleMouseEnter, handleMouseLeave, mouseIn ,handleChangePage} = this.props
+        const newList = list.toJS()
+        const pageList = []
+        if (newList.length){
+            for(let i = (page * 10) ; i < ( page + 1 ) * 10 ; i++){
+                pageList.push(
+                    <SearchInfoItem key={newList[i]}>{newList[i]}</SearchInfoItem>
+                )
+            }
+        }
+        if (focused || mouseIn) {
             return (
-                <SearchInfo>
+                <SearchInfo 
+                    onMouseEnter = {handleMouseEnter}
+                    onMouseLeave = {handleMouseLeave}
+                >
                     <SearchInfoTitle>
                         热门搜索
-                        <SearchInfoSwitch>
+                        <SearchInfoSwitch onClick={()=>handleChangePage(page,totalPage ,this.spinIcon)}>
+                            <svg ref={(icon) => {this.spinIcon = icon}} className="icon spin" aria-hidden="true">
+                                <use xlinkHref="#icon-spin"></use>
+                            </svg>
                             换一批
                         </SearchInfoSwitch>
                     </SearchInfoTitle>
                     <SearchInfoList>  
-                        {
-                            this.props.list.map((item)=>{
-                                return <SearchInfoItem key={item}>{item}</SearchInfoItem>
-                            })
-                        }
+                    {pageList}
                     </SearchInfoList>
                 </SearchInfo>
             )
@@ -45,6 +57,7 @@ class Header extends Component {
     }
 
     render() {
+        const { focused ,handleInputFocus,handleInputBlur} = this.props
         return (
         <HeaderWrapper>
             <Logo href='/' />
@@ -63,20 +76,20 @@ class Header extends Component {
                 </NavItem> 
                 <SearchWrapper>
                     <NavSearch 
-                        className={this.props.focused ? 'focused' : '' } 
+                        className={focused ? 'focused' : '' } 
                         placeholder="搜索"
-                        onFocus={this.props.handleInputFocus} 
-                        onBlur={this.props.handleInputBlur}
+                        onFocus={handleInputFocus} 
+                        onBlur={handleInputBlur}
                     />
-                    <IconWrapper className={this.props.focused ? 'wrapperActive' : 'wrapperUnactive'}>
+                    <IconWrapper className={focused ? 'wrapperActive' : 'wrapperUnactive'}>
                     <svg 
                         aria-hidden="true"
-                        className={this.props.focused ? 'icon iconActive' : 'icon iconUnactive' }
+                        className={focused ? 'icon iconActive' : 'icon iconUnactive' }
                     >
                         <use xlinkHref="#icon-search"></use>
                     </svg>
                     </IconWrapper>
-                    {this.getList(this.props.focused)}
+                    {this.getList(focused)}
                 </SearchWrapper>
                 <NavItem className='rightFlow navLight'>Aa</NavItem>                     
                 <NavItem className='navLight'>登录</NavItem> 
@@ -98,7 +111,10 @@ class Header extends Component {
 const mapStateToProps = (state) => {
     return {
         focused: state.getIn(['header','focused']) ,
-        list: state.getIn(['header','list'])
+        list: state.getIn(['header','list']),
+        page: state.getIn(['header','page']),
+        mouseIn: state.getIn(['header','mouseIn']),
+        totalPage: state.getIn(['header','totalPage'])
     }
 }
 
@@ -110,6 +126,29 @@ const mapDispathToProps = (dispatch) => {
         },
         handleInputBlur () {
             dispatch(actionCreaters.searchBlur())
+        },
+        handleMouseEnter () {
+            dispatch(actionCreaters.mouseEnter())
+            console.log('in')
+        },
+        handleMouseLeave () {
+            dispatch(actionCreaters.mouseLeave())
+            console.log('out')
+        },
+        handleChangePage (page,totalPage,spin) {
+            let originAngle = spin.style.transform.replace(/[^0-9]/ig,'')
+            if (originAngle) {
+                originAngle = parseInt(originAngle,10)
+            }else{
+                originAngle = 0
+            }
+
+            spin.style.transform = 'rotate(' + (originAngle + 360 ) + 'deg)'
+            if (page+1 < totalPage) {
+                dispatch(actionCreaters.changePage( page + 1 ))
+            }else{
+                dispatch(actionCreaters.changePage(1))
+            }
         }
     }
 }
