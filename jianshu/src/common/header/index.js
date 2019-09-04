@@ -20,8 +20,8 @@ import {
 
 class Header extends Component {
 
-    getList = (focused) => {
-        if (focused) {
+    getList = () => {
+        if (this.props.focused) {
             return (
                 <SearchInfo>
                     <SearchInfoTitle>
@@ -31,10 +31,11 @@ class Header extends Component {
                         </SearchInfoSwitch>
                     </SearchInfoTitle>
                     <SearchInfoList>  
-                        <SearchInfoItem href='www.baidu.com'>教育</SearchInfoItem>
-                        <SearchInfoItem>C++</SearchInfoItem>
-                        <SearchInfoItem>JavaScript</SearchInfoItem>
-                        <SearchInfoItem>软件工程</SearchInfoItem>
+                        {
+                            this.props.list.map((item)=>{
+                                return <SearchInfoItem key={item}>{item}</SearchInfoItem>
+                            })
+                        }
                     </SearchInfoList>
                 </SearchInfo>
             )
@@ -96,7 +97,8 @@ class Header extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        focused: state.getIn(['header','focused'])
+        focused: state.getIn(['header','focused']) ,
+        list: state.getIn(['header','list'])
     }
 }
 

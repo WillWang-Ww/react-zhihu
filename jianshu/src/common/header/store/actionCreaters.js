@@ -1,5 +1,6 @@
 import * as constants from './constants'
-import { dispatch } from '../../../../../../../AppData/Local/Microsoft/TypeScript/3.5/node_modules/rxjs/internal/observable/pairs';
+import { fromJS } from 'immutable'
+import axios from 'axios'
 
 export const searchFocus = () => ({
     type: constants.SEARCH_FOCUS
@@ -9,8 +10,18 @@ export const searchBlur = () => ({
     type: constants.SEARCH_BLUR
 })
 
+const changeList = (data) => ({
+    type: constants.CHANGE_LIST,
+    data: fromJS(data)
+})
+
 export const getList = () => {
     return (dispatch) => {
-        
+            axios.get('/api/headerList.json').then((res)=>{
+                const data = res.data
+                dispatch(changeList(data.data))
+        }).catch(()=>{
+            console.log('热门搜索请求失败')
+        })
     }
 }
