@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import  { actionCreaters } from './store';
 import {
     HeaderWrapper,
+    WidthWrapper,
     Logo,
     Nav,
     NavItem,
@@ -60,6 +61,7 @@ class Header extends Component {
         const { focused ,handleInputFocus,handleInputBlur} = this.props
         return (
         <HeaderWrapper>
+            <WidthWrapper>
             <Logo href='/' />
             <Nav>
                 <NavItem className='orange flex'>
@@ -103,6 +105,7 @@ class Header extends Component {
                     写文章
                 </Button>
             </Addition>
+            </WidthWrapper>
         </HeaderWrapper>
         )
     }

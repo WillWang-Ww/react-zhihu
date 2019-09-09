@@ -4,6 +4,12 @@ import LogoPic from '../../statics/logo.png'
 export const HeaderWrapper = styled.div`
     height: 58px;
     border-bottom: 1px solid #f0f0f0;
+`
+
+export const WidthWrapper = styled.div`
+    max-width: 1440px;
+    min-width: 768px;
+    margin: 0 auto;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -21,6 +27,7 @@ export const Nav = styled.div`
     width: 960px;
     margin: 0 auto;
     display: flex;
+    box-sizing: border-box;
 `
 
 export const NavItem = styled.div`
@@ -72,8 +79,8 @@ export const SearchInfo = styled.div`
     top: 56px;
     width: 240px;
     padding: 10px 20px;
-    box-shadow: 0 0 8px rgba(0,0,0,0.2)
-
+    box-shadow: 0 0 8px rgba(0,0,0,0.2);
+    background: white;
 `
 
 export const SearchInfoList = styled.div`
